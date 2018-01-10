@@ -13,9 +13,11 @@ export GOPATH=$HOME/go
 
 mkdir -p ~/go/src/
 
+# for telegraf
 cd ~/go/src/
 mkdir influxdata
 cd ~/go/src/influxdata
 git clone https://github.com/influxdata/telegraf.git
 
+https://github.com/influxdata/telegraf/blob/master/CONTRIBUTING.md
 ```
