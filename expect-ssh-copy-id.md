@@ -162,7 +162,7 @@ do
     check_ipaddr $line
     if [ $? == 0 ]
     then
-        ./auto-login.sh $hname root 'vivoCloud$$1'
+        ./auto-login.sh $hname root PASSWORD
     fi
 done <"$file"
 
