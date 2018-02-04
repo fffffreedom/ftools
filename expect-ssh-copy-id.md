@@ -54,8 +54,118 @@ expect {
 }
 
 expect eof
+```
+```
+#!/bin/bash
 
-#spawn ssh -l $username $hostip
-#send "$passwd\n"
-#interact
+file="../hosts"
+
+# http://blog.csdn.net/kongshuai19900505/article/details/78144019
+check_ipaddr()  
+{
+    echo $1|grep "^[0-9]\{1,3\}\.\([0-9]\{1,3\}\.\)\{2\}[0-9]\{1,3\}$" > /dev/null;
+    if [ $? -ne 0 ]
+    then
+        #echo "IP地址必须全部为数字"   
+        return 1
+    fi
+    ipaddr=$1
+    a=`echo $ipaddr|awk -F . '{print $1}'`
+    b=`echo $ipaddr|awk -F . '{print $2}'`
+    c=`echo $ipaddr|awk -F . '{print $3}'`
+    d=`echo $ipaddr|awk -F . '{print $4}'`
+    for num in $a $b $c $d
+    do
+        if [ $num -gt 255 ] || [ $num -lt 0 ]
+        then
+            return 1
+        fi
+    done
+
+    return 0
+}
+
+while read -r line
+do
+    printf '%s\n' "$line"
+    check_ipaddr $line
+    if [ $? == 0 ]
+    then
+        ./auto-copy.sh $line root PASSWORD
+    else
+        echo "==> login $line fail"
+    fi
+done <"$file"
+
+exit 0
+```
+## 登录登出
+```
+#!/usr/bin/expect -f    
+#
+# Install RSA SSH KEY with no passphrase
+#
+
+set hostip [lindex $argv 0]
+set username [lindex $argv 1]
+set passwd [lindex $argv 2]
+
+#print to screen
+#send_user "$hostip $username $passwd"
+
+spawn ssh $username@$hostip
+
+expect {
+        "continue" { send "yes\n"; exp_continue }
+        "assword:" { send "$passwd\n"; }
+        "#" { send "exit\n"; }
+}
+
+expect eof
+```
+```
+#!/bin/bash
+
+file="../hosts"
+
+hname=""
+
+check_ipaddr()  
+{
+    echo $1|grep "^[0-9]\{1,3\}\.\([0-9]\{1,3\}\.\)\{2\}[0-9]\{1,3\}$" > /dev/null;
+    if [ $? -ne 0 ]
+    then
+        #echo "IP地址必须全部为数字"   
+        return 1
+    fi
+    ipaddr=$1
+    a=`echo $ipaddr|awk -F . '{print $1}'`
+    b=`echo $ipaddr|awk -F . '{print $2}'`
+    c=`echo $ipaddr|awk -F . '{print $3}'`
+    d=`echo $ipaddr|awk -F . '{print $4}'`
+    for num in $a $b $c $d
+    do
+        if [ $num -gt 255 ] || [ $num -lt 0 ]
+        then
+            return 1
+        fi
+    done
+
+    hname=ceph-node-$a-$b-$c-$d
+
+    return 0
+}
+
+while read -r line
+do
+    printf '%s\n' "$line"
+    check_ipaddr $line
+    if [ $? == 0 ]
+    then
+        ./auto-login.sh $hname root 'vivoCloud$$1'
+    fi
+done <"$file"
+
+exit 0
+
 ```
