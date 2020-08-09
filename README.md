@@ -1,2 +1,4 @@
-# tools
-记录日常工作用到的工具
+# ftools
+
+tips
+
