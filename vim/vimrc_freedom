@@ -1,0 +1,90 @@
+
+set nocompatible	"关闭 vi 兼容模式
+filetype off		"
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'fatih/vim-go'
+Plugin 'Valloric/YouCompleteMe'
+
+Plugin 'SirVer/ultisnips'
+" 解决与 YCM 插件的冲突
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+Plugin 'scrooloose/nerdtree'
+map <F3> :NERDTreeToggle<CR>
+
+Plugin 'tomasr/molokai'
+" put at the end of .vimrc
+" colorscheme molokai
+" set t_Co=256
+
+Plugin 'majutsushi/tagbar'
+nmap <F2> :TagbarToggle<CR>
+
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+let g:airline#extensions#tabline#enabled = 1
+
+Plugin 'kien/ctrlp.vim'
+
+Plugin 'Lokaltog/vim-powerline'
+" let g:Powerline_symbols = 'fancy'
+set laststatus=2
+let g:Powerline_symbols='unicode'
+" let g:Powerline_symbols = 'fancy'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" =========================
+"   base configs
+" =========================
+
+syntax on
+filetype on
+
+set number			" 显示行号
+set cursorline		" 突出显示当前行
+
+set softtabstop=4	" 使得按退格键时可以一次删掉4个空格
+set tabstop=4		" 设定tab长度为4
+set expandtab		" 将tab扩展为空格
+set backspace=indent,eol,start
+
+set shiftwidth=4	" 设定 << 和 >> 命令移动时的宽度为4
+
+set incsearch		" 输入搜索内容时就显示搜索结果
+set hlsearch		" 搜索时高亮显示被找到的文本
+
+" set mapleader
+let mapleader = ","
+
+" vim-go custom mappings
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>e <Plug>(go-rename)
+
+" vim-go settings
+let g:go_fmt_command = "goimports" 
+
+" should be put here
+colorscheme molokai
+set t_Co=256
