@@ -1,0 +1,11 @@
+
+1. compile kernel 
+	[*] compile the kernel with debug info
+
+2. fix gdb bug
+	update gdb version to 7.12.1
+	https://sourceware.org/bugzilla/show_bug.cgi?id=13984
+	http://blog.csdn.net/jiafu1115/article/details/20689729
+		sudo apt-get install texinfo to fix make install error
+3. qemu-system-x86_64 -s -S -kernel path/to/your/bzImage
+4. gdb vmlinux
